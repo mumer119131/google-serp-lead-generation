@@ -4,9 +4,12 @@ import { CiDark } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import { MdLeaderboard } from "react-icons/md";
 import { MdOutlineLogout } from "react-icons/md";
+import { logout } from '../../app/utils/auth/auth';
+import { useRouter } from 'next/navigation';
 
 export const Header = () => {
     const [currentTheme, setCurrentTheme] = useState("light")
+    const router = useRouter()
     const toggleTheme = () => {
         document.documentElement.classList.toggle("dark")
         setCurrentTheme(document.documentElement.classList.contains("dark") ? "dark" : "light")
@@ -19,6 +22,10 @@ export const Header = () => {
             setCurrentTheme(theme)
         }
     }, [])
+    const logoutUser = async () => {
+        await logout()
+        router.push("/login")
+    }
   return (
     <header className="">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -27,7 +34,7 @@ export const Header = () => {
           <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
             currentTheme === "dark" ? <CiDark size={24} /> : <MdDarkMode size={24} />
             }</button>
-          <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
+          <button onClick={logoutUser} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
                 <MdOutlineLogout size={24} />
             }</button>
         </nav>

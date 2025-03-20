@@ -58,7 +58,7 @@ const LoginForm = () => {
             <h1 className='font-bold text-2xl text-center uppercase'>Login</h1>
             <Text >Login into your account.</Text>
             <Input placeholder='Email' className='max-w-[20rem]' name='email' onChange={handleChange} errors={errors.email}/>
-            <Input placeholder='Password' className='max-w-[20rem]' name='password' onChange={handleChange} errors={errors.password}/>
+            <Input placeholder='Password' type='password' className='max-w-[20rem]' name='password' onChange={handleChange} errors={errors.password}/>
             <Button className='max-w-[20rem] min-w-[20rem]' variant='secondary'>Login</Button>
             <Text className='text-center'>Do not have an account? <Link href="/register"><b>Register</b></Link></Text>
     </form>

@@ -56,7 +56,7 @@ const RegisterForm = () => {
             <Text >Create your new account.</Text>
             <Input placeholder='Name' className='max-w-[20rem]' name='name' onChange={handleChange} errors={errors.name}/>
             <Input placeholder='Email' className='max-w-[20rem]' name='email' onChange={handleChange} errors={errors.email}/>
-            <Input placeholder='Password' className='max-w-[20rem]' name='password' onChange={handleChange} errors={errors.password}/>
+            <Input placeholder='Password' type='password' className='max-w-[20rem]' name='password' onChange={handleChange} errors={errors.password}/>
             <Button className='max-w-[20rem] min-w-[20rem]' variant='secondary'>Register</Button>
             <Text className='text-center'>Already have an account? <Link href="/login"><b>Login</b></Link></Text>
     </form>

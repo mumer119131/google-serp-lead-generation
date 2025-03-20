@@ -20,7 +20,14 @@ interface Email {
     created_at: string;
 }
 
-
+export interface LeadsResponse {
+    metadata: {
+        page: number;
+        total: number;
+        resultsPerPage: number;
+    };
+    results: Lead[];
+}
 export interface RawLead {
     kind: string;
     url: {
