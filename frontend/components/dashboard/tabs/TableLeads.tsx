@@ -19,7 +19,7 @@ const TableLeads = (props: Props) => {
   const leadHeaders: (keyof Lead)[] = leads.results[0] ? Object.keys(leads.results[0]) as (keyof Lead)[] : []
   return (
     <Table className='mt-4 max-w-full overflow-auto'>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
             <TableRow>
               {

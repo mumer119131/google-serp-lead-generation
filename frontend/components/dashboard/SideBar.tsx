@@ -13,7 +13,7 @@ interface SidebarProps {
 }
 
 const SideBar = (props: SidebarProps) => {
-    const { currentTab } = props
+    const { currentTab, setCurrentTab } = props
     const [isOpened, setIsOpened] = React.useState(false)
     const links = [
         {
@@ -48,7 +48,7 @@ const SideBar = (props: SidebarProps) => {
             
             <nav className='flex flex-col items-center gap-2'>
                 {links.map(link => (
-                    <Link href={link.href} key={link.href} className={`flex rounded-md items-center gap-2 p-4 hover:bg-gray-900 hover:text-white w-full cursor-pointer ${currentTab.toLowerCase() === link.title.toLowerCase() ? "bg-gray-900 text-white": ""}`}>
+                    <Link href={link.href} key={link.href} className={`flex rounded-md items-center gap-2 p-4 hover:bg-gray-900 hover:text-white w-full cursor-pointer ${currentTab.toLowerCase() === link.title.toLowerCase() ? "bg-gray-900 text-white": ""}`} onClick={() => setCurrentTab(link.title)}>
                         <span className='material-icons'>{link.icon}</span>
                         {
                             isOpened && <span className='capitalize text-sm'>{link.title}</span>
