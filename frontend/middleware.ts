@@ -8,17 +8,17 @@ const SECRET_KEY_BUFFER = new TextEncoder().encode(SECRET_KEY);
 
 export async function middleware(req: NextRequest) {
     try {
-        const token = req.headers.get("Authorization")?.split(" ")[1];
+        const token = req.cookies.get("token")?.value;
 
         if (!token) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+            return NextResponse.redirect(new URL("/login", req.url), { status: 307 });
         }
 
         // Verify JWT using `jose`
         const { payload } = await jwtVerify(token, SECRET_KEY_BUFFER);
 
         if (!payload.id) {
-            return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+            return NextResponse.redirect(new URL("/login", req.url), { status: 307 });
         }
 
         // Attach user ID to headers
@@ -27,10 +27,12 @@ export async function middleware(req: NextRequest) {
 
         return NextResponse.next({ request: { headers: requestHeaders } });
     } catch {
-        return NextResponse.json({ error: "Authentication failed" }, { status: 401 });
+        return NextResponse.redirect(new URL("/login", req.url), { status: 307 });
+        // return NextResponse.json({ error: "Authentication failed" }, { status: 401 });
+
     }
 }
 
 export const config = {
-    matcher: ["/api/protected/:path*", "/api/leads/:path*"], // Protect all /api/protected/* routes
+    matcher: ["/api/protected/:path*", "/api/leads/:path*", "/api/auth/authenticate", "/dashboard"], // Protect all /api/protected/* routes
 };

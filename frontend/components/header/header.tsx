@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { CiDark } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import { MdLeaderboard } from "react-icons/md";
+import { MdOutlineLogout } from "react-icons/md";
 
 export const Header = () => {
     const [currentTheme, setCurrentTheme] = useState("light")
@@ -25,6 +26,9 @@ export const Header = () => {
         <nav className="flex space-x-4">
           <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
             currentTheme === "dark" ? <CiDark size={24} /> : <MdDarkMode size={24} />
+            }</button>
+          <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
+                <MdOutlineLogout size={24} />
             }</button>
         </nav>
       </div>
