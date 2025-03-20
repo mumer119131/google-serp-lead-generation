@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Leads {
+  id         String   @id @default(uuid())
+  title      String
+  email      String
+  link       String?
+  snippet    String?
+  site_name  String?
+  site_desc  String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  query      String?  @default("")
+  status     String   @default("scraped")
+  processed_email String? @default("")
+  crawled_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  name     String?
+  leads    Leads[]
+  role     String   @default("user")
+  GOOGLE_API_KEY String? @default("")
+  CSE_ID String? @default("")
+  DATABASE_URL String? @default("")
+  DIRECT_URL String? @default("")
+  last_login DateTime?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+
