@@ -6,6 +6,7 @@ interface SearchResult {
   title?: string;
   link?: string;
   snippet?: string;
+  userId?: string;
   email?: string;
   site_name?: string;
   site_desc?: string;
@@ -25,7 +26,7 @@ const googleSearch = async (query: string, page: number): Promise<RawLead> => {
 };
 
 // Extract and format search results
-const formatSearchResults = (data: RawLead, query: string, links: string[]): Lead[] => {
+const formatSearchResults = (data: RawLead, query: string, links: string[], userId: string): Lead[] => {
   const results: SearchResult[] = [];
 
   for (const item of data.items || []) {
@@ -45,6 +46,7 @@ const formatSearchResults = (data: RawLead, query: string, links: string[]): Lea
       title: item.title,
       link: item.link,
       snippet: item.snippet,
+      userId,
       email,
       site_name: item.displayLink,
       site_desc: item.pagemap?.metatags?.[0]?.["og:description"],
@@ -69,13 +71,13 @@ async function saveDataToDatabase(data: Lead[]): Promise<void> {
 }
 
 // Main function
-export const scrape = async (number: number, pages: number, query: string): Promise<void> => {
+export const scrape = async (number: number, pages: number, query: string, userId: string): Promise<void> => {
   const links = await getOnlyEmails();
 
   for (let page = 0; page < pages; page++) {
     const data = await googleSearch(query, page);
 
-    const formattedData = formatSearchResults(data, query, links);
+    const formattedData = formatSearchResults(data, query, links, userId);
 
     if (formattedData.length > 0) {
       await saveDataToDatabase(formattedData);

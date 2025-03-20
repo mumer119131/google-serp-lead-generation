@@ -13,12 +13,16 @@ export async function GET() {
 // Handle POST requests
 export async function POST(req: Request) {
   const body = await req.json();
+  const userId = req.headers.get('x-user-id');
   const result = GenerateLeadSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json({ message: 'Invalid input', errors: result.error }, { status: 400 });
     }
 
     const { pages, query } = result.data;
-    await scrape(10, pages, query);
+    if (!userId) {
+        return NextResponse.json({ message: 'User ID not found' }, { status: 400 });
+    }
+    await scrape(10, pages, query, userId);
     return NextResponse.json({ message: 'Scraping complete' }, { status: 201 });
 }

@@ -32,5 +32,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/api/protected/:path*", "/api/leads"], // Protect all /api/protected/* routes
+    matcher: ["/api/protected/:path*", "/api/leads/:path*"], // Protect all /api/protected/* routes
 };

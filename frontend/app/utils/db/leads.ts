@@ -11,6 +11,18 @@ export async function disconnect(): Promise<void> {
     await db.$disconnect();
 }
 
+export async function getLeadsByUserId(userId: string): Promise<Lead[]> {
+    /** Retrieve all email records from Prisma by user ID. */
+    const emails = await db.leads.findMany({ where: { userId } });
+    return emails;
+}
+
+export async function getLeadsByStatus(status: string): Promise<Lead[]> {
+    /** Retrieve all email records from Prisma by status. */
+    const emails = await db.leads.findMany({ where: { status } });
+    return emails;
+}
+
 export async function insertEmails(data: Lead[]): Promise<Lead[]> {
     /** Insert multiple email records into Prisma. */
     const createdEmails = await Promise.all(data.map(record => db.leads.create({ data: record })));

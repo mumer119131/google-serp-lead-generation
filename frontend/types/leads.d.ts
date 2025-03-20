@@ -8,7 +8,7 @@ export interface Lead {
     site_name: string | null;
     site_desc: string | null;
     status: string;
-    user: string;
+    userId: string;
     processed_email: string | null;
     crawled_at: Date;
     updated_at: Date;
