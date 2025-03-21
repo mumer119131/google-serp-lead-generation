@@ -17,6 +17,7 @@ export async function getLeadsByUserId(userId: string): Promise<Lead[]> {
     return emails;
 }
 
+
 export async function getLeadsByStatus(status: string): Promise<Lead[]> {
     /** Retrieve all email records from Prisma by status. */
     const emails = await db.leads.findMany({ where: { status } });

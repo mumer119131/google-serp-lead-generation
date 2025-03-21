@@ -2,11 +2,11 @@ import React from 'react'
 import { MdDashboard } from "react-icons/md";
 import { MdOutlineSettings } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineLogout } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
 import Link from 'next/link';
-
+import { SiGoogleads } from "react-icons/si";
 interface SidebarProps {
     currentTab: string
     setCurrentTab: (tab: string) => void
@@ -24,7 +24,7 @@ const SideBar = (props: SidebarProps) => {
         {
             title: 'leads',
             href: '/leads',
-            icon: <MdDashboard />
+            icon: <SiGoogleads />
         },
         {
             title: 'profile',
@@ -37,9 +37,9 @@ const SideBar = (props: SidebarProps) => {
             icon: <MdOutlineSettings />
         },
         {
-            title: 'logout',
-            href: '/logout',
-            icon: <MdOutlineLogout />
+            title: 'emails',
+            href: '/emails',
+            icon: <AiOutlineMail />
         }
     ]
   return (

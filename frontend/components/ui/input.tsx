@@ -5,11 +5,13 @@ import Text from "../generic/Text"
 
 interface InputProps extends React.ComponentProps<"input"> {
   errors?: string;
+  label?: string;
 }
 
-function Input({ className, errors, type, ...props }: InputProps) {
+function Input({ className, label, errors, type, ...props }: InputProps) {
   return (
     <>
+    <label className="text-xs text-gray-400">{label}</label>
     <input
       type={type}
       data-slot="input"

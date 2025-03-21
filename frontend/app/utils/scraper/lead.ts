@@ -1,6 +1,7 @@
 import { Lead, RawLead } from "@/types/leads";
 import axios from "axios";
 import { getOnlyEmails, insertEmails } from "../db/leads";
+import { getUserById } from "../db/users";
 
 interface SearchResult {
   title?: string;
@@ -13,16 +14,24 @@ interface SearchResult {
   query: string;
 }
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || "";
-const CSE_ID = process.env.CSE_ID || "";
+
 
 
 
 // Perform a Google search
-const googleSearch = async (query: string, page: number): Promise<RawLead> => {
-  const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CSE_ID}&q=${query}&start=${page + 1}`;
-  const response = await axios(url);
-  return response.data;
+const googleSearch = async (query: string, page: number, userId: string): Promise<RawLead> => {
+  const GOOGLE_API_KEY = await getUserById(userId).then((user) => user?.GOOGLE_API_KEY);
+  const CSE_ID = await getUserById(userId).then((user) => user?.CSE_ID);
+  if (!GOOGLE_API_KEY || !CSE_ID) {
+    throw new Error("API key or CSE ID not found");
+  }
+  try{
+    const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CSE_ID}&q=${query}&start=${page + 1}`;
+    const response = await axios(url);
+    return response.data;
+  }catch{
+    throw new Error("Failed to fetch data from Google API. Please check your API key and CSE ID.");
+  }
 };
 
 // Extract and format search results
@@ -75,7 +84,7 @@ export const scrape = async (number: number, pages: number, query: string, userI
   const links = await getOnlyEmails();
 
   for (let page = 0; page < pages; page++) {
-    const data = await googleSearch(query, page);
+    const data = await googleSearch(query, page, userId);
 
     const formattedData = formatSearchResults(data, query, links, userId);
 
