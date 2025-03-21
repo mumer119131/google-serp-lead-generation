@@ -3,7 +3,6 @@
 // app/settings/page.tsx (server component)
 import TabWrapper from '@/components/dashboard/tabs/TabWrapper';
 import CardWrapper from '@/components/generic/CardWrapper';
-import Text from '@/components/generic/Text';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UpdateSettingsInput, UpdateSettingsSchema } from '@/libs/validations';
