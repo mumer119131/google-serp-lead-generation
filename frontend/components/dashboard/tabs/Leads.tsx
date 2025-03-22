@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, useEffect } from 'react'
+import React, {useEffect } from 'react'
 import TabWrapper from './TabWrapper'
 import { Button } from '@/components/ui/button'
 import TableLeads from './TableLeads'
@@ -31,7 +31,7 @@ const Leads = () => {
         fetchLeads()
     }, [page])
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    
         <TabWrapper>
             <div className="flex flex-col">
             <h2 className="text-2xl font-semibold">Leads</h2>
@@ -47,7 +47,6 @@ const Leads = () => {
             </div>
             {leads.results.length > 0 && <LeadsPagination metadata={leads.metadata} />}
         </TabWrapper>
-    </Suspense>
   )
 }
 
