@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import TabWrapper from './TabWrapper'
 import { Button } from '@/components/ui/button'
 import TableLeads from './TableLeads'
@@ -31,21 +31,23 @@ const Leads = () => {
         fetchLeads()
     }, [page])
   return (
-    <TabWrapper>
-        <div className="flex flex-col">
-        <h2 className="text-2xl font-semibold">Leads</h2>
-        <p className="text-sm text-gray-500">Here you can manage your leads and perform various actions like creating new leads or exporting them as CSV.</p>
-      </div>
-        <div className="flex gap-2">
-            <CreateLeads />
-            <Button className='mt-4'>Export CSV</Button>
+    <Suspense fallback={<div>Loading...</div>}>
+        <TabWrapper>
+            <div className="flex flex-col">
+            <h2 className="text-2xl font-semibold">Leads</h2>
+            <p className="text-sm text-gray-500">Here you can manage your leads and perform various actions like creating new leads or exporting them as CSV.</p>
         </div>
-        {loading && <LeadsTableSkeleton />}
-        <div className='max-w-full min-h-0 min-w-0 max-h-full'>
-            {leads.results.length > 0 && <TableLeads leads={leads} />}
-        </div>
-        {leads.results.length > 0 && <LeadsPagination metadata={leads.metadata} />}
-    </TabWrapper>
+            <div className="flex gap-2">
+                <CreateLeads />
+                <Button className='mt-4'>Export CSV</Button>
+            </div>
+            {loading && <LeadsTableSkeleton />}
+            <div className='max-w-full min-h-0 min-w-0 max-h-full'>
+                {leads.results.length > 0 && <TableLeads leads={leads} />}
+            </div>
+            {leads.results.length > 0 && <LeadsPagination metadata={leads.metadata} />}
+        </TabWrapper>
+    </Suspense>
   )
 }
 
