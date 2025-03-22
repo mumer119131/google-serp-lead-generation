@@ -6,6 +6,8 @@ import TableLeads from './TableLeads'
 import { LeadsResponse } from '@/types/leads'
 import CreateLeads from './Leads/CreateLeads'
 import LeadsTableSkeleton from './Leads/LeadsTableSkeleton'
+import LeadsPagination from './Leads/LeadsPagination'
+import { useSearchParams } from 'next/navigation'
 
 
 const Leads = () => {
@@ -14,15 +16,20 @@ const Leads = () => {
         metadata: { page: 1, total: 0, resultsPerPage: 10 },
         results: []
     })
+    const searchParams = useSearchParams()
+    const page = searchParams.get('page') || 1
     useEffect(() => {
         const fetchLeads = async () => {
-            const res = await fetch('/api/leads')
+            setLoading(true)
+            setLeads({ metadata: { page: 1, total: 0, resultsPerPage: 10 }, results: [] })
+            const res = await fetch('/api/leads?page=' + page)
+            console.log(res, page)
             const data = await res.json()
             setLeads(data)
             setLoading(false)
         }
         fetchLeads()
-    }, [])
+    }, [page])
   return (
     <TabWrapper>
         <div className="flex flex-col">
@@ -37,6 +44,7 @@ const Leads = () => {
         <div className='max-w-full min-h-0 min-w-0 max-h-full'>
             {leads.results.length > 0 && <TableLeads leads={leads} />}
         </div>
+        {leads.results.length > 0 && <LeadsPagination metadata={leads.metadata} />}
     </TabWrapper>
   )
 }
