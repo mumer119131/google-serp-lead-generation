@@ -17,7 +17,16 @@ export async function getLeadsByUserId(userId: string): Promise<Lead[]> {
     return emails;
 }
 
-
+export async function deleteLeadById(ids: string): Promise<Lead[]> {
+    /** Delete an email record from Prisma by ID. */
+    const deletedEmail = await db.leads.delete({ where: { id: ids } });
+    return [deletedEmail];
+}
+export async function deleteLeadsByIds(ids: string[]): Promise<Lead[]> {
+    /** Delete multiple email records from Prisma by ID. */
+    const deletedEmails = await Promise.all(ids.map(id => db.leads.delete({ where: { id } })));
+    return deletedEmails;
+}
 export async function getLeadsByStatus(status: string): Promise<Lead[]> {
     /** Retrieve all email records from Prisma by status. */
     const emails = await db.leads.findMany({ where: { status } });
@@ -34,6 +43,11 @@ export async function getEmails(): Promise<Lead[]> {
     /** Retrieve all email records from Prisma. */
     const emails = await db.leads.findMany();
     return emails;
+}
+export async function checkLeadAuthorization(userId: string, leadId: string): Promise<boolean> {
+    /** Check if the user is authorized to access the email record. */
+    const email = await db.leads.findFirst({ where: { id: leadId, userId } });
+    return email !== null;
 }
 
 export async function getEmailsByStatus(status: string): Promise<Lead[]> {

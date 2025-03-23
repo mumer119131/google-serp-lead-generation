@@ -2,7 +2,7 @@
 import { SignUpRequestSchema } from '@/libs/validations';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { createUser } from '@/app/utils/db/auth';
+import { createUser, sendVerificationEmail } from '@/app/utils/db/auth';
 import jwt from 'jsonwebtoken';
 // Handle GET requests
 export async function GET() {
@@ -24,8 +24,11 @@ export async function POST(req: Request) {
         if (!process.env.JWT_SECRET) {
             throw new Error('JWT_SECRET is not defined');
         }
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        return NextResponse.json({ message: 'User created !!', data: {token} }, { status: 201 });
+        await sendVerificationEmail(user.id);
+        const token = jwt.sign({ id: user.id, isVerified: user.isVerified }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const response = NextResponse.json({ message: 'User created !!' });
+        response.cookies.set('token', token, { httpOnly: true, secure: true, sameSite: 'strict', path: '/' });
+        return response;
     }catch{
         return NextResponse.json({ message: 'User already exists', errors: 'User already exists' }, { status: 400 });
     }

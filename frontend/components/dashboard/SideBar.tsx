@@ -44,7 +44,7 @@ const SideBar = (props: SidebarProps) => {
     ]
   return (
     <div className={`${isOpened ? 'basis-1/5' : ''} pb-4`}>
-        <div className='flex flex-col justify-between p-2 h-full bg-gray-200 dark:bg-gray-950 text-black dark:text-white rounded-md'>
+        <div className='flex flex-col justify-between p-2 h-full bg-gray-200 dark:bg-black text-black dark:text-white rounded-md'>
             
             <nav className='flex flex-col items-center gap-2'>
                 {links.map(link => (

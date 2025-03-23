@@ -37,6 +37,8 @@ model User {
   CSE_ID           String?          @default("")
   DATABASE_URL     String?          @default("")
   DIRECT_URL       String?          @default("")
+  isVerified       Boolean          @default(false)
+  lastVerificationEmailSent DateTime?
   last_login       DateTime?
   created_at       DateTime         @default(now())
   updated_at       DateTime         @default(now())

@@ -6,6 +6,8 @@ import Text from '@/components/generic/Text'
 import Link from 'next/link'
 import { LoginRequestSchema, LoginRequestInput } from '../../libs/validations';
 import { useRouter } from 'next/navigation'
+import CardWrapper from '../generic/CardWrapper'
+import { useAuth } from '@/context/AuthContext'
 
 const LoginForm = () => {
     const [formData, setFormData] = useState<LoginRequestInput>({
@@ -16,6 +18,7 @@ const LoginForm = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+    const {login} = useAuth()
     const [errors, setErrors] = useState<{ [key in keyof LoginRequestInput]?: string }>({});
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -47,6 +50,7 @@ const LoginForm = () => {
           
 
           console.log("User signed up successfully");
+          login()
           router.push('/dashboard')
         } catch (error) {
           console.error(error);
@@ -54,7 +58,8 @@ const LoginForm = () => {
       };
 
     return (
-    <form onSubmit={handleSubmit} className='max-w-[20rem] flex flex-col gap-2'>
+    <CardWrapper>
+      <form onSubmit={handleSubmit} className='max-w-[20rem] flex flex-col gap-2'>
             <h1 className='font-bold text-2xl text-center uppercase'>Login</h1>
             <Text >Login into your account.</Text>
             <Input placeholder='Email' className='max-w-[20rem]' name='email' onChange={handleChange} errors={errors.email}/>
@@ -62,6 +67,7 @@ const LoginForm = () => {
             <Button className='max-w-[20rem] min-w-[20rem]' variant='secondary'>Login</Button>
             <Text className='text-center'>Do not have an account? <Link href="/register"><b>Register</b></Link></Text>
     </form>
+    </CardWrapper>
   )
 }
 

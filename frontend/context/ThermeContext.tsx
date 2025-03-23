@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface ThemeContextType {
     theme: string;
@@ -8,12 +8,27 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<string>(typeof window !== 'undefined' && localStorage.getItem('theme') || 'light');
+    const [theme, setTheme] = useState<string>(typeof window !== 'undefined' ? localStorage.getItem('theme') || 'dark' : 'dark');
 
     const toggleTheme = () => {
-        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-        localStorage.setItem('theme', localStorage.getItem('theme') === 'light' ? 'dark' : 'light');
+        console.log('toggleTheme', theme)
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('theme', newTheme);
+            }
+            return newTheme;
+        });
     };
+    useEffect(() => {
+        // Synchronize with localStorage after component mounts
+        if (typeof window !== 'undefined') {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                setTheme(storedTheme);
+            }
+        }
+    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

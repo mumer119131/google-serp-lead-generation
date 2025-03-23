@@ -8,6 +8,8 @@ export interface User {
     CSE_ID?: string | null;
     DATABASE_URL?: string | null;
     DIRECT_URL?: string | null;
+    isVerified: boolean;
+    lastVerificationEmail?: Date | null;
     last_login?: Date | null;
     created_at: Date;
     updated_at: Date;

@@ -1,9 +1,8 @@
 
 "use client";
 import React, { useEffect } from 'react'
-import SideBar from '../../../components/dashboard/SideBar'
+import SideBar from '../../../../components/dashboard/SideBar'
 import { ThemeProvider } from '@/context/ThermeContext';
-import { Header } from '@/components/header/header';
 
 
 const Layout = ({
@@ -24,7 +23,6 @@ const Layout = ({
     // const tabs = ['dashboard', 'users', 'settings', 'profile']
     return (
       <ThemeProvider>
-        <Header />
         <div className='flex h-[calc(100vh-60px)] relative max-w-screen'>
             <SideBar currentTab={currentTab} setCurrentTab={setCurrentTab}/>
             <div className="flex-grow min-w-0">

@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     if (!process.env.JWT_SECRET) {
         throw new Error('JWT_SECRET is not defined');
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id: user.id, isVerified: user.isVerified }, process.env.JWT_SECRET, { expiresIn: '1d' });
     const response = NextResponse.json({ message: 'User logged in !!' });
     response.cookies.set('token', token, { httpOnly: true, secure: true, sameSite: 'strict', path: '/' });
     return response;

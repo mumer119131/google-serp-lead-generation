@@ -1,32 +1,33 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { CiDark } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
 import { GrCubes } from "react-icons/gr";
 import { MdOutlineLogout } from "react-icons/md";
-import { logout } from '../../app/utils/auth/auth';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/context/ThermeContext';
+import { useAuth } from '@/context/AuthContext';
+import { logoutUser } from '@/app/utils/auth/auth';
+import { FaRegUserCircle } from "react-icons/fa";
 
 export const Header = () => {
-    const [currentTheme, setCurrentTheme] = useState("light")
+    const {logout, isAuthenticated} = useAuth()
+    const {theme, toggleTheme} = useTheme()
     const router = useRouter()
-    const theme = useTheme()
     
-    const toggleTheme = () => {
+    const toggleThemeMode = () => {
         document.documentElement.classList.toggle("dark")
-        setCurrentTheme(document.documentElement.classList.contains("dark") ? "dark" : "light")
-        theme.toggleTheme()
+        toggleTheme()
     }
     useEffect(() => {
         const theme = localStorage.getItem("theme")
         if (theme) {
             document.documentElement.classList.add(theme)
-            setCurrentTheme(theme)
         }
     }, [])
-    const logoutUser = async () => {
-        await logout()
+    const logoutUserSite = async () => {
+        await logoutUser()
+        logout()
         router.push("/login")
     }
   return (
@@ -34,12 +35,20 @@ export const Header = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <h1 className="text-xl font-poppins flex items-center justify-center gap-1"><GrCubes/> &nbsp; Leads Gen<b>X</b></h1>
         <nav className="flex space-x-4">
-          <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
-            currentTheme === "dark" ? <CiDark size={24} /> : <MdDarkMode size={24} />
+          <button onClick={toggleThemeMode} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
+            theme === "dark" ? <CiDark size={24} /> : <MdDarkMode size={24} />
             }</button>
-          <button onClick={logoutUser} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
-                <MdOutlineLogout size={24} />
-            }</button>
+          {
+            isAuthenticated && <button onClick={logoutUserSite} className="text-gray-600 hover:text-gray-800 cursor-pointer">
+                    <MdOutlineLogout size={24} />
+            </button>
+            }
+            {
+            isAuthenticated && <button onClick={() => router.push("/profile")} className="text-gray-600 hover:text-gray-800 cursor-pointer">
+                    <FaRegUserCircle size={24} /> 
+            </button>
+
+            }
         </nav>
       </div>
     </header>

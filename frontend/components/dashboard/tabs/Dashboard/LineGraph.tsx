@@ -16,7 +16,7 @@ type DailyLeads = {
 const LineGraph = ({ leads }: LineGraphProps) => {
     const today = new Date();
     const {theme} = useTheme()
-    const isDarkMode = theme === 'dark'
+    const isDarkMode = theme === "dark"
     const lastWeekLeads = leads.filter(lead => {
         const leadDate = new Date(lead.crawled_at);
         return (today.getTime() - leadDate.getTime()) / (1000 * 3600 * 24) <= 7;
@@ -65,7 +65,7 @@ const LineGraph = ({ leads }: LineGraphProps) => {
         ],
         []
     );
-
+    
     return (
         <div style={{ width: '100%', height: '300px' }}>
             <Chart

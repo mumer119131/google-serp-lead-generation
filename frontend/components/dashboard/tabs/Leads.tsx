@@ -8,6 +8,7 @@ import CreateLeads from './Leads/CreateLeads'
 import LeadsTableSkeleton from './Leads/LeadsTableSkeleton'
 import LeadsPagination from './Leads/LeadsPagination'
 import { useSearchParams } from 'next/navigation'
+import { deleteLeads, exportCSV } from '@/app/utils/leads/leads'
 
 
 const Leads = () => {
@@ -16,20 +17,31 @@ const Leads = () => {
         metadata: { page: 1, total: 0, resultsPerPage: 10 },
         results: []
     })
+    const [checkedLeads, setCheckedLeads] = React.useState<string[]>([])
     const searchParams = useSearchParams()
     const page = searchParams.get('page') || 1
+    const fetchLeads = async () => {
+        setLoading(true)
+        setLeads({ metadata: { page: 1, total: 0, resultsPerPage: 10 }, results: [] })
+        const res = await fetch('/api/leads?page=' + page)
+        const data = await res.json()
+        setLeads(data)
+        setLoading(false)
+    }
+    
     useEffect(() => {
-        const fetchLeads = async () => {
-            setLoading(true)
-            setLeads({ metadata: { page: 1, total: 0, resultsPerPage: 10 }, results: [] })
-            const res = await fetch('/api/leads?page=' + page)
-            console.log(res, page)
-            const data = await res.json()
-            setLeads(data)
-            setLoading(false)
-        }
+        console.log(page)
         fetchLeads()
     }, [page])
+    
+    const deleteLeadsByIds = async () => {
+        deleteLeads(checkedLeads)
+        fetchLeads()
+        setCheckedLeads([])
+    }
+    const exportDataToCSV = () => {
+        exportCSV(leads)
+    }
   return (
     
         <TabWrapper>
@@ -39,11 +51,14 @@ const Leads = () => {
         </div>
             <div className="flex gap-2">
                 <CreateLeads />
-                <Button className='mt-4'>Export CSV</Button>
+                <Button className='mt-4' onClick={exportDataToCSV}>Export CSV</Button>
+                {
+                    checkedLeads.length > 0 && <Button className='mt-4 bg-red-500 hover:bg-red-700' onClick={deleteLeadsByIds}>Delete Selected</Button>
+                }
             </div>
             {loading && <LeadsTableSkeleton />}
             <div className='max-w-full min-h-0 min-w-0 max-h-full'>
-                {leads.results.length > 0 && <TableLeads leads={leads} />}
+                {leads.results.length > 0 && <TableLeads leads={leads} checkedLeads={checkedLeads} setCheckedLeads={setCheckedLeads}/>}
             </div>
             {leads.results.length > 0 && <LeadsPagination metadata={leads.metadata} />}
         </TabWrapper>
