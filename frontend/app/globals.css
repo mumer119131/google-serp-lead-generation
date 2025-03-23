@@ -47,15 +47,17 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 .grid-bg {
-  position: absolute;
+  /* position: absolute;
   inset: 0;
   height: 100%;
   width: 100%;
   background-image: linear-gradient(to right, #80808012 1px, transparent 1px),
     linear-gradient(to bottom, #80808012 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-size: 24px 24px; */
 }
 
 .loader {

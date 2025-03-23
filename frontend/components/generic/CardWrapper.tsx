@@ -8,7 +8,7 @@ interface CardWrapperProps {
 }
 const CardWrapper = ({children, className}: CardWrapperProps) => {
   return (
-    <div className={cn('border-[1px] border-gray-200 dark:border-gray-700 w-max h-max p-4 rounded-md', className)}>{children}</div>
+    <div className={cn('border-[1px] border-gray-200 dark:border-gray-800 w-max h-max p-4 rounded-md', className)}>{children}</div>
   )
 }
 

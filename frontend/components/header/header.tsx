@@ -6,14 +6,17 @@ import { MdLeaderboard } from "react-icons/md";
 import { MdOutlineLogout } from "react-icons/md";
 import { logout } from '../../app/utils/auth/auth';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '@/context/ThermeContext';
 
 export const Header = () => {
     const [currentTheme, setCurrentTheme] = useState("light")
     const router = useRouter()
+    const theme = useTheme()
+    
     const toggleTheme = () => {
         document.documentElement.classList.toggle("dark")
         setCurrentTheme(document.documentElement.classList.contains("dark") ? "dark" : "light")
-        localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light")
+        theme.toggleTheme()
     }
     useEffect(() => {
         const theme = localStorage.getItem("theme")
