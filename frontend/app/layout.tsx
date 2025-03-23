@@ -27,7 +27,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased grid-bg`}
       >
-        {children}
+        <div className="content">
+          {children}
+        </div>
       </body>
     </html>
   );

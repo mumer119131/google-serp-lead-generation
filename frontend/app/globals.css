@@ -47,6 +47,8 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+}
+body > .content{
   max-width: 1280px;
   margin: 0 auto;
 }

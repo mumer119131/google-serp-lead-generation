@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { CiDark } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
-import { MdLeaderboard } from "react-icons/md";
+import { GrCubes } from "react-icons/gr";
 import { MdOutlineLogout } from "react-icons/md";
 import { logout } from '../../app/utils/auth/auth';
 import { useRouter } from 'next/navigation';
@@ -32,7 +32,7 @@ export const Header = () => {
   return (
     <header className="">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold font-poppins flex items-center justify-center gap-1"><MdLeaderboard/> Leads</h1>
+        <h1 className="text-xl font-poppins flex items-center justify-center gap-1"><GrCubes/> &nbsp; Leads Gen<b>X</b></h1>
         <nav className="flex space-x-4">
           <button onClick={toggleTheme} className="text-gray-600 hover:text-gray-800 cursor-pointer">{
             currentTheme === "dark" ? <CiDark size={24} /> : <MdDarkMode size={24} />

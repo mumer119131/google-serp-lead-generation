@@ -4,7 +4,7 @@ import React from 'react'
 const page = () => {
   return (
     <TabWrapper>
-      <h1>Profile</h1>
+        <h1>Emails</h1>
     </TabWrapper>
   )
 }
