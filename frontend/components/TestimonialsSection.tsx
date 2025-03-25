@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
+import Image from 'next/image';
 
 const testimonials = [
   {
@@ -77,7 +78,7 @@ const TestimonialsSection = () => {
                 <p className="text-md mb-6 italic">{testimonial.testimonial}</p>
                 <div className="flex items-center">
                   <div className="h-12 w-12 rounded-full overflow-hidden mr-4">
-                    <img src={testimonial.image} alt={testimonial.name} className="h-full w-full object-cover" />
+                    <Image src={testimonial.image} alt={testimonial.name} className="h-full w-full object-cover" />
                   </div>
                   <div>
                     <h4 className="font-semibold">{testimonial.name}</h4>
