@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   
@@ -83,6 +82,7 @@ const HeroSection = () => {
                   </div>
                 </div>
                 <div className="p-6">
+                  {/* <Image src={hero_img} alt="Hero Image" width={800} height={600} layout="responsive" /> */}
                   <div className="animate-pulse-slow">
                     <div className="h-4 bg-primary/10 rounded mb-4 w-3/4"></div>
                     <div className="h-8 bg-primary/20 rounded mb-6 w-2/3"></div>

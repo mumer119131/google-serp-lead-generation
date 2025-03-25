@@ -56,8 +56,11 @@ const Navigation = () => {
         
         <div className="hidden md:flex items-center space-x-4">
           <ThemeToggle />
+          <Button variant="outline" size="sm">
+            <Link href='/register'>Register</Link>
+          </Button>
           <Button variant="default" size="sm">
-            <Link href='/login'>Get Started</Link>
+            <Link href='/login'>Login</Link>
           </Button>
         </div>
         
@@ -108,7 +111,7 @@ const Navigation = () => {
               Contact
             </a>
             <Button variant="default" size="sm" className="w-full">
-              Get Started
+              Login
             </Button>
           </div>
         </div>
