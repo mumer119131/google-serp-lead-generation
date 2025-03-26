@@ -10,6 +10,7 @@ export const userSchema = z.object({
 export const GenerateLeadSchema = z.object({
     pages: z.number().int().positive(),
     query: z.string().nonempty(),
+    country: z.string().nonempty(),
 });
 
 export const LoginRequestSchema = z.object({
@@ -31,6 +32,7 @@ export const UpdateSettingsSchema = z.object({
 export const CreateLeadSchema = z.object({
     query: z.string().nonempty().min(3, "Query must be at least 3 characters long"),
     pages: z.number().int().positive().positive("Pages must be a positive number"),
+    country: z.string().nonempty()
 });
 
 // Define a type based on schema

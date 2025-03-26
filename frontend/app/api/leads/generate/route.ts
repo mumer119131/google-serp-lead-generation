@@ -19,10 +19,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Invalid input', errors: result.error }, { status: 400 });
     }
 
-    const { pages, query } = result.data;
+    const { pages, query, country } = result.data;
     if (!userId) {
         return NextResponse.json({ message: 'User ID not found' }, { status: 400 });
     }
-    await scrape(10, pages, query, userId);
+    await scrape(10, pages, query, userId, country);
     return NextResponse.json({ message: 'Scraping complete' }, { status: 201 });
 }

@@ -19,14 +19,15 @@ interface SearchResult {
 
 
 // Perform a Google search
-const googleSearch = async (query: string, page: number, userId: string): Promise<RawLead> => {
+const googleSearch = async (query: string, page: number, userId: string, country: string): Promise<RawLead> => {
   const GOOGLE_API_KEY = await getUserById(userId).then((user) => user?.GOOGLE_API_KEY);
   const CSE_ID = await getUserById(userId).then((user) => user?.CSE_ID);
   if (!GOOGLE_API_KEY || !CSE_ID) {
     throw new Error("API key or CSE ID not found");
   }
   try{
-    const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CSE_ID}&q=${query}&start=${page + 1}`;
+    const country_param = country ? `&gl=${country}` : "";
+    const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${CSE_ID}&sort=date${country_param}&q=${query}&start=${page + 1}`;
     const response = await axios(url);
     return response.data;
   }catch{
@@ -80,11 +81,14 @@ async function saveDataToDatabase(data: Lead[]): Promise<void> {
 }
 
 // Main function
-export const scrape = async (number: number, pages: number, query: string, userId: string): Promise<void> => {
+export const scrape = async (number: number, pages: number, query: string, userId: string, country: string): Promise<void> => {
   const links = await getOnlyEmails();
-
+  if(!country || country == "all"){
+    country = ""
+  }
+  console.log(`Scraping ${number} pages for query: ${query} in country: ${country}`);
   for (let page = 0; page < pages; page++) {
-    const data = await googleSearch(query, page, userId);
+    const data = await googleSearch(query, page, userId, country);
 
     const formattedData = formatSearchResults(data, query, links, userId);
 

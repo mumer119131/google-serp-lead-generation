@@ -12,11 +12,21 @@ import { Button } from '@/components/ui/button'
 import { CreateLeadInput, CreateLeadSchema } from '@/libs/validations'
 import Spinner from '@/components/generic/Spinner'
 import { useRouter } from 'next/navigation'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { COUNTRIES_GL_LIST } from '@/data/variables'
+
 
 const CreateLeads = () => {
     const [formData, setFormData] = React.useState({
         query: '',
-        pages: 1
+        pages: 1,
+        country: '',
     })
     const [status, setStatus] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -71,7 +81,7 @@ const CreateLeads = () => {
             const data = await response.json();
             setLoading(false);
             console.log('Success:', data);
-            router.refresh();
+            router.push("/leads");
         } catch (error) {
             console.error(error);
             if (error instanceof Error) {
@@ -93,10 +103,23 @@ const CreateLeads = () => {
             </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                <div className='flex gap-2'>
+                <div className='flex gap-2 justify-between'>
                     <Input type="text" placeholder="Query" name='query' onChange={handleChange} errors={errors.query}/>
                     <Input type="number" placeholder="No. Of Pages" name='pages' defaultValue={1} onChange={handleChange} errors={errors.pages}/>
                 </div>
+                <Select onValueChange={(value) => setFormData((prev) => ({ ...prev, country: value }))}>
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {Object.entries(COUNTRIES_GL_LIST).map(([name, code]) => (
+                            <SelectItem key={code} value={code}>
+                                {name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+
                 <Button>{loading? <>Generating <Spinner/></> : "Create"}</Button>
                 {status && <div className="text-red-500 text-sm">{status}</div>}
             </form>
